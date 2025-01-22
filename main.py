@@ -1,47 +1,51 @@
-import pytubefix
 from Downloader import downloader
 from tkinter import Tk
 from tkinter.filedialog import asksaveasfilename
 from time import time
+from os import path
 
 
 def take_user_input(promt):
     while True : 
         inp = input(promt)
 
-        if  inp.startswith('https://music.youtube.com') or inp.startswith('https://youtube.com') : 
+        if  inp.startswith('https://music.youtube.com') or inp.startswith('https://youtube.com') or inp == "" : 
             break
         else : 
             print("Invalid Input (url starts with 'https://youtube.com' )")
       
     return inp.replace("music.","")
 
-url = take_user_input("Enter the desired Song url (yt/ytmusic) : ")
+if __name__=="__main__" : 
+    while True :
+        url = take_user_input("Enter the desired Song url (yt/ytmusic) : ")
+        
 
-# Open a Save As dialog
-Tk().withdraw()
-save_path = asksaveasfilename(
-    title="Save File As",
-    defaultextension=".mp3", 
-    filetypes=[("Audio","*.mp3 *.m4a")]
-)
+        home = path.expanduser("~")
+        downloads_folder = path.join(home, "Downloads")
 
+        # Open a Save As dialog
+        Tk().withdraw()
+        save_path = asksaveasfilename(
+            title="Save File As",
+            defaultextension="", 
+            filetypes=[("Audio","*.mp3 *.m4a")],
+            initialfile="downloaded_song" if len(url) > 0 else "easter egg",
+            initialdir=f"{downloads_folder}"
+        )
 
-try : 
-    # intializing the downloader class 
-    song = downloader(url)
+        # intializing the downloader class 
+        song = downloader(url)
 
-    # calculating the time it takes to download 
-    start_time = time()
-    print(f"Downloading {song.title}")
+        # calculating the time it takes to download 
+        start_time = time()
 
-    # downloads the song 
-    song.download(save_path)
+        # downloads the song 
+        print("Starting Download")
+        song.download(save_path)
 
-    final_time = time()
+        final_time = time()
 
-    print(f"Download completed succesfully \nat {save_path}\nin {final_time-start_time}")
-except pytubefix.exceptions.BotDetection as e:
-    print(f"youtube thinks you're a bot ): , try again later .")
-except Exception as e : 
-    print(f"something went wrong {e}")
+        if save_path : 
+            print(f"Download completed succesfully \nat {save_path}\nin {final_time-start_time}s")
+

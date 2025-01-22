@@ -1,18 +1,25 @@
-from pytubefix import YouTube 
-import os 
+from yt_dlp import YoutubeDL
 
 class downloader : 
-    def __init__(self,url = 'http://youtube.com/watch?v=dQw4w9WgXcQ'):
-        self.url = url
-        yt = YouTube(url=self.url)
-        self.title = yt.title
-        self.stream = yt.streams.filter(only_audio=True).order_by("abr").last()
+    def __init__(self,url):
+         # If no valid URL is provided, default to a fun Easter egg
+        if len(url) > 0 : 
+            self.url = url
+        else :
+            #RICKROLLED
+            self.url = 'http://youtube.com/watch?v=dQw4w9WgXcQ'
 
     def download(self,file_path) : 
-        if os.path.isdir(file_path):
-            file_path = os.path.join(file_path, self.stream.default_filename)
-        
-        # Download the file
-        self.stream.download(output_path=os.path.dirname(file_path), filename=os.path.basename(file_path))
+        ydl_opts = {
+            'format': 'bestaudio',
+            'outtmpl': f'{file_path}',
+            'quiet': True,
+            'no_warnings': True
+        }
+        try : 
+            with YoutubeDL(ydl_opts) as ydl : 
+                ydl.download(self.url)
+        except Exception as e:
+            print(f"Failed to download: {e}")
 
-    
+            
