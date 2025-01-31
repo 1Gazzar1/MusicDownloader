@@ -24,18 +24,18 @@ if __name__=="__main__" :
         home = path.expanduser("~")
         downloads_folder = path.join(home, "Downloads")
 
+        # intializing the downloader class 
+        song = downloader(url)
+
         # Open a Save As dialog
         Tk().withdraw()
         save_path = asksaveasfilename(
             title="Save File As",
             defaultextension="", 
             filetypes=[("Audio","*.mp3 *.m4a")],
-            initialfile="downloaded_song" if len(url) > 0 else "easter egg",
+            initialfile=f"{song.title}" if len(url) > 0 else "easter egg",
             initialdir=f"{downloads_folder}"
         )
-
-        # intializing the downloader class 
-        song = downloader(url)
 
         # calculating the time it takes to download 
         start_time = time()
@@ -47,5 +47,5 @@ if __name__=="__main__" :
         final_time = time()
 
         if save_path : 
-            print(f"Download completed succesfully \nat {save_path}\nin {final_time-start_time}s")
+            print(f"Download completed succesfully \nat {save_path}\nin {round((final_time-start_time),2)} s")
 
