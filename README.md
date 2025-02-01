@@ -14,9 +14,12 @@ This is a simple command-line application that downloads music from YouTube.
 ## Requirements
 - Python 3.x
 - yt-dlp library
-- tkinter python library
+- FFmpeg
 
 ## Installation
-You can install the `yt-dlp` library using pip:
+1. You can install the `yt-dlp` library using pip:
 ```bash
 pip install yt-dlp
+``` 
+
+2. You can install FFmpeg from this [site](https://www.ffmpeg.org/download.html)

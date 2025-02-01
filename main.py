@@ -14,7 +14,7 @@ def take_user_input(promt):
         else : 
             print("Invalid Input (url starts with 'https://youtube.com' )")
       
-    return inp.replace("music.","")
+    return inp
 
 if __name__=="__main__" : 
     while True :
