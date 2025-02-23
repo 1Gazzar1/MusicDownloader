@@ -4,10 +4,12 @@ from yt_dlp import YoutubeDL
 
 class downloader:
     def __init__(self, url):
+        self.EASTEREGG = False    
         if len(url) > 0:
             self.url = url
         else:
             self.url = 'http://youtube.com/watch?v=dQw4w9WgXcQ'
+            self.EASTEREGG = True    
         info = self.get_info()
         
         self.title = info.get('title')
@@ -40,7 +42,8 @@ class downloader:
         }
         with YoutubeDL(song_ydl_opts) as ydl:         
             ydl.download(self.url)
-
+        if self.EASTEREGG : 
+            return
         # Download thumbnail
         thumbnail_ydl_opts = {
             'skip_download': True,  
